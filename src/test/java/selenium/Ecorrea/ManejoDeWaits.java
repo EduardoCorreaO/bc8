@@ -1,10 +1,7 @@
 package selenium.Ecorrea;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
@@ -59,25 +56,26 @@ public class ManejoDeWaits {
     }
     @Test
     public void esperaFluent(){
-        FluentWait<WebDriver> fluentWait = new WebDriverWait(driver)
-        .withTimeout(Duration.ofSeconds(10))
-        .pollingEvery(Duration.ofMillis(100))
-                .withMessage("error de timeput fluent 8c8")
-
+        //FluentWait :: mayor configuracion -> webelement asinc
+        FluentWait<WebDriver> fluentWait = new FluentWait<>(driver)
+                .withTimeout(Duration.ofSeconds(10))
+                .pollingEvery(Duration.ofMillis(100))
+                .withMessage("Error de Timeout Fluent BC8")
                 .ignoring(NoSuchElementException.class);
+
         driver.get("https://the-internet.herokuapp.com/dynamic_loading/1");
-        WebElement btnstart = driver.findElement(localizadorBotonStart);
-        btnstart.click();
-        fluentWait.until(ExpectedConditions.elementToBeClickable(localizadorHelloWord));
-        WebElement Hello = driver.findElement(localizadorHelloWord);
-        assertEquals("Hello World",Hello.getText());
-
-
-    }
+        WebElement botonStart = driver.findElement(localizadorBotonStart);
+        botonStart.click();
+        fluentWait.until(ExpectedConditions.elementToBeClickable(localizadorHelloWord)); //se encuentra? -> 500 ms
+        WebElement hello = driver.findElement(localizadorHelloWord);
+        Assert.assertEquals("Hello World!",hello.getText());}
 
 
 
-    @After
+
+
+
+        @After
     public void close() {
         if (driver != null) {
             driver.close();
