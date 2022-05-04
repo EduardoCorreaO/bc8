@@ -9,51 +9,46 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.FluentWait;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
-import static org.junit.Assert.assertEquals;
-
 public class ManejoDeWaits {
 
-
+    // 3 Tipos: Implicita , Explicita, FluentWait
     //atributos
-    public static WebDriver driver;
-    public By localizadorBotonStart = By.id("//*[@id=\"start\"]/button");
-    public By localizadorHelloWord = By.id("//*[@id=\"finish\"]");
-
-
+    static WebDriver driver;
+    By localizadorBotonStart = By.xpath("//div[@id=\"start\"]//button");
+    By localizadorTextoHolaMundo = By.xpath("//div[@id=\"finish\"]//h4");
 
     @BeforeClass
-    public static void init() {
+    public static void init(){
         WebDriverManager.chromedriver().setup();
-
     }
 
     @Before
-    public void setUp() {
-        //preparacion de Driver = Navegador
-        driver = new ChromeDriver(); //Chrome -> navegador
-        driver.manage().deleteAllCookies();
+    public void setUp(){
+        driver = new ChromeDriver();
+        driver.manage().deleteAllCookies(); //borrar cookies
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5)); //ciclo de espera de 500ms
-
+        //espera implicita afecta a los metodos findelement y findelements
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5)); // ciclo de espera de 500 ms
     }
 
     @Test
-    public void esperaExplicita() {
-        WebDriverWait exwait = new WebDriverWait(driver, Duration.ofSeconds(1));
-        driver.get("https://the-internet.herokuapp.com/dynamic_loading/1");
-        WebElement btnstart = driver.findElement(localizadorBotonStart);
-        btnstart.click();
-        exwait.until(ExpectedConditions.elementToBeClickable(localizadorHelloWord));
-        WebElement Hello = driver.findElement(localizadorHelloWord);
-        assertEquals("Hello World",Hello.getText());
+    public void esperaExplicita(){
+        // Esperas explicitas debemos declarar un WebDriverWait
+        WebDriverWait exwait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
+        driver.get("https://the-internet.herokuapp.com/dynamic_loading/1");
+        WebElement botonStart = driver.findElement(localizadorBotonStart);
+        botonStart.click();
+        exwait.until(ExpectedConditions.elementToBeClickable(localizadorTextoHolaMundo)); //se encuentra? -> 500 ms
+        WebElement hello = driver.findElement(localizadorTextoHolaMundo);
+        Assert.assertEquals("Hello World!",hello.getText());
 
     }
+
     @Test
     public void esperaFluent(){
         //FluentWait :: mayor configuracion -> webelement asinc
@@ -66,19 +61,20 @@ public class ManejoDeWaits {
         driver.get("https://the-internet.herokuapp.com/dynamic_loading/1");
         WebElement botonStart = driver.findElement(localizadorBotonStart);
         botonStart.click();
-        fluentWait.until(ExpectedConditions.elementToBeClickable(localizadorHelloWord)); //se encuentra? -> 500 ms
-        WebElement hello = driver.findElement(localizadorHelloWord);
-        Assert.assertEquals("Hello World!",hello.getText());}
+        fluentWait.until(ExpectedConditions.elementToBeClickable(localizadorTextoHolaMundo)); //se encuentra? -> 500 ms
+        WebElement hello = driver.findElement(localizadorTextoHolaMundo);
+        Assert.assertEquals("Hello World!",hello.getText());
 
 
+    }
 
 
-
-
-        @After
-    public void close() {
-        if (driver != null) {
+    @After
+    public void close(){
+        if(driver != null){
             driver.close();
         }
     }
+
+
 }
