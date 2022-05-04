@@ -1,4 +1,4 @@
-package pom.equipoX.base;
+package pom.Equipo2.Base;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -90,7 +90,5 @@ public class SeleniumBasePage {
     public String getTitle(){
         return driver.getTitle();
     }
-
-
 
 }
