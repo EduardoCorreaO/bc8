@@ -5,7 +5,7 @@
 
 		<!-- standard, dark -->
 
-		<theme>dark</theme>
+		<theme>standar</theme>
 		<!-- document encoding -->
 
 		<!-- defaults to UTF-8 -->
@@ -17,7 +17,7 @@
 
 		<protocol>http</protocol>
 		<!-- title of the document -->
-		<documentTitle>TSOFT BC 2021</documentTitle>
+		<documentTitle>framework automatizacion web 2021</documentTitle>
 		<!-- report name - displayed at top-nav -->
 
 		<reportName>AutomationCraft Report</reportName>
