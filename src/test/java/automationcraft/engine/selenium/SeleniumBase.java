@@ -4,6 +4,8 @@ package automationcraft.engine.selenium;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
 
@@ -13,6 +15,7 @@ import java.util.List;
  * @responsable eduardo.araya
  */
 public class SeleniumBase {
+    WebDriverWait exwait;
 
     //Atributos
     private WebDriver driver;
@@ -99,8 +102,10 @@ public class SeleniumBase {
         return driver.getTitle();
     }
 
-
-
+    public void exwait(By locator){
+        exwait = new WebDriverWait(driver,5);
+        exwait.until(ExpectedConditions.elementToBeClickable(locator));
+    }
 
 
 
